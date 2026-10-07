@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>반도체 소자 물리 & 단채널 효과 Q&A 마스터 백과사전</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+          onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+  <style>
+    :root {
+      --bg-body: #0b0f19;
+      --bg-card: #131b2e;
+      --bg-sidebar: #0f172a;
+      --border: #222f49;
+      --text-main: #f1f5f9;
+      --text-sub: #cbd5e1;
+      --text-muted: #64748b;
+      
+      --accent-blue: #38bdf8;
+      --accent-amber: #f59e0b;
+      --accent-green: #10b981;
+      
+      --summary-bg: linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(99, 102, 241, 0.12) 100%);
+      --summary-border: #0284c7;
+      
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+      --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.5);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* 좌측 사이드바: 질문 리스트 */
+    aside {
+      width: 380px;
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 50;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .sidebar-header {
+      padding: 22px 20px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(30,41,59,0.5) 0%, rgba(15,23,42,0) 100%);
+    }
+
+    .sidebar-header h1 {
+      font-size: 1.18rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .sidebar-header p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+
+    .search-box {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 9px 13px;
+      background-color: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-main);
+      font-size: 0.85rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+
+    .nav-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px 8px;
+      list-style: none;
+    }
+
+    .nav-list::-webkit-scrollbar {
+      width: 5px;
+    }
+    .nav-list::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    .nav-item {
+      margin-bottom: 3px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 9px 12px;
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 0.84rem;
+      line-height: 1.4;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+    }
+
+    .nav-link:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: var(--accent-blue);
+      transform: translateX(3px);
+    }
+
+    .nav-link.active {
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.15), rgba(99, 102, 241, 0.05));
+      color: var(--accent-blue);
+      font-weight: 700;
+      border-left: 3px solid var(--accent-blue);
+    }
+
+    .nav-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent-blue);
+      background-color: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 2px 5px;
+      border-radius: 4px;
+      white-space: nowrap;
+      margin-top: 1px;
+    }
+
+    .nav-text {
+      flex: 1;
+      word-break: keep-all;
+    }
+
+    /* 메인 컨텐츠 영역 */
+    main {
+      margin-left: 380px;
+      flex: 1;
+      padding: 40px 60px 100px;
+      max-width: 1250px;
+    }
+
+    header.main-header {
+      margin-bottom: 44px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 20px;
+      color: var(--accent-blue);
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .main-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+
+    .main-desc {
+      font-size: 1rem;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    /* 질문 카드 섹션 */
+    .topic-section {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px 36px;
+      margin-bottom: 44px;
+      box-shadow: var(--shadow-sm);
+      scroll-margin-top: 25px;
+      transition: border-color 0.2s;
+    }
+
+    .topic-section:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    .latest-card-highlight {
+      border: 2px solid #0284c7;
+      background: linear-gradient(180deg, rgba(2, 132, 199, 0.08) 0%, var(--bg-card) 100%);
+    }
+
+    .topic-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topic-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .topic-badge {
+      background: linear-gradient(135deg, #0284c7, #6366f1);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 6px;
+    }
+
+    .latest-tag {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid #10b981;
+      color: #10b981;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .topic-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+    }
+
+    /* 면접 대비 3~4줄 핵심 요약 상자 */
+    .interview-summary-card {
+      background: var(--summary-bg);
+      border: 1.5px solid var(--summary-border);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(2, 132, 199, 0.15);
+    }
+
+    .summary-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: #0284c7;
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      letter-spacing: 0.03em;
+    }
+
+    .summary-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .summary-list li {
+      font-size: 0.96rem;
+      line-height: 1.65;
+      color: #e2e8f0;
+      position: relative;
+      padding-left: 24px;
+      font-weight: 500;
+    }
+
+    .summary-list li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      top: 1px;
+      color: var(--accent-blue);
+      font-size: 0.92rem;
+      font-weight: 800;
+    }
+
+    .summary-list li strong {
+      color: #38bdf8;
+      font-weight: 700;
+    }
+
+    .lecture-content {
+      line-height: 1.75;
+      color: var(--text-sub);
+    }
+
+    .lecture-content h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 24px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lecture-content h3::before {
+      content: "";
+      width: 4px;
+      height: 16px;
+      background: var(--accent-blue);
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    .lecture-content p {
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    .lecture-content ul, .lecture-content ol {
+      margin: 10px 0 18px 22px;
+    }
+
+    .lecture-content li {
+      margin-bottom: 8px;
+      font-size: 0.94rem;
+    }
+
+    .diagram-box {
+      background-color: #0b1120;
+      border: 1px solid #1e293b;
+      border-radius: var(--radius-md);
+      padding: 18px;
+      margin: 18px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84rem;
+      color: #38bdf8;
+      white-space: pre;
+      overflow-x: auto;
+      line-height: 1.45;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .formula-box {
+      background: rgba(30, 41, 59, 0.4);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin: 16px 0;
+      text-align: center;
+      font-size: 1.05rem;
+      color: #f8fafc;
+    }
+
+    .analogy-card {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(217, 119, 6, 0.04) 100%);
+      border-left: 4px solid var(--accent-amber);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+
+    .analogy-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent-amber);
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .analogy-desc {
+      font-size: 0.9rem;
+      color: #f1f5f9;
+      line-height: 1.6;
+    }
+
+    .data-table-wrap {
+      overflow-x: auto;
+      margin: 18px 0;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+    }
+
+    table.data-table th {
+      background-color: #1e293b;
+      color: var(--text-main);
+      padding: 11px 14px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+
+    table.data-table td {
+      padding: 11px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: var(--text-sub);
+    }
+
+    table.data-table tr:hover td {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    @media (max-width: 1100px) {
+      aside {
+        width: 320px;
+      }
+      main {
+        margin-left: 320px;
+        padding: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      aside {
+        position: relative;
+        width: 100%;
+        height: auto;
+      }
+      main {
+        margin-left: 0;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 좌측 내비게이션 바: 질문자님의 실제 질문들이 탭 제목으로 배치! -->
+  <aside>
+    <div class="sidebar-header">
+      <h1>반도체 3 Q&A 백과사전</h1>
+      <p>질문하신 순서의 역순(최신순)으로 정렬된 탭</p>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" class="search-input" placeholder="질문 키워드 검색...">
+    </div>
+    <ul class="nav-list" id="navList">
+      <li class="nav-item"><a href="#q-01" class="nav-link"><span class="nav-num">01</span><span class="nav-text">halo implant가 punchthrough 개선하는 메커니즘</span></a></li>
+
+      <li class="nav-item"><a href="#q-02" class="nav-link"><span class="nav-num">02</span><span class="nav-text">표면쪽 농도를 감소시키면 drain side 높은 전계를 낮추는 메커니즘</span></a></li>
+
+      <li class="nav-item"><a href="#q-03" class="nav-link"><span class="nav-num">03</span><span class="nav-text">gidl에서 밴드간터널링이 뭐야?</span></a></li>
+      <li class="nav-item"><a href="#q-04" class="nav-link"><span class="nav-num">04</span><span class="nav-text">gate spacer가 핫캐리어와 gidl 억제하는 메커니즘</span></a></li>
+      <li class="nav-item"><a href="#q-05" class="nav-link"><span class="nav-num">05</span><span class="nav-text">ldd가 dibl에 좋은 점 설명</span></a></li>
+      <li class="nav-item"><a href="#q-06" class="nav-link"><span class="nav-num">06</span><span class="nav-text">ldd로 dibl, gidl 둘 다 막을 수 있나?</span></a></li>
+      <li class="nav-item"><a href="#q-07" class="nav-link"><span class="nav-num">07</span><span class="nav-text">shallow junction depth profile은 뭐야?</span></a></li>
+      <li class="nav-item"><a href="#q-08" class="nav-link"><span class="nav-num">08</span><span class="nav-text">ldd한다고 어떻게 수평전기장피크를 낮추는 건데?</span></a></li>
+      <li class="nav-item"><a href="#q-09" class="nav-link"><span class="nav-num">09</span><span class="nav-text">ldd는 뭘 개선하기 위한 거야?</span></a></li>
+      <li class="nav-item"><a href="#q-10" class="nav-link"><span class="nav-num">10</span><span class="nav-text">ionization 발생하면 SS 특성 저하시키는 메커니즘</span></a></li>
+      <li class="nav-item"><a href="#q-11" class="nav-link"><span class="nav-num">11</span><span class="nav-text">hot carrier injection이 뭐야?</span></a></li>
+      <li class="nav-item"><a href="#q-12" class="nav-link"><span class="nav-num">12</span><span class="nav-text">gidl이 뭐야?</span></a></li>
+      <li class="nav-item"><a href="#q-13" class="nav-link"><span class="nav-num">13</span><span class="nav-text">depletion cap 줄이는 방법이 왜 shallow junction이야?</span></a></li>
+      <li class="nav-item"><a href="#q-14" class="nav-link"><span class="nav-num">14</span><span class="nav-text">high-k는 dibl, punchthrough 둘 다 공통해결법이지?</span></a></li>
+      <li class="nav-item"><a href="#q-15" class="nav-link"><span class="nav-num">15</span><span class="nav-text">dibl 개선방법 중 high-k 메커니즘이 뭐야?</span></a></li>
+      <li class="nav-item"><a href="#q-16" class="nav-link"><span class="nav-num">16</span><span class="nav-text">dibl 포텐셜 베리어는 소스-채널이야, 소스-바디야?</span></a></li>
+      <li class="nav-item"><a href="#q-17" class="nav-link"><span class="nav-num">17</span><span class="nav-text">채널 감싸는 면적 증가할수록 dibl 유리한 메커니즘</span></a></li>
+      <li class="nav-item"><a href="#q-18" class="nav-link"><span class="nav-num">18</span><span class="nav-text">3d dram dual gate는 finfet이랑 다른 맥락이지?</span></a></li>
+      <li class="nav-item"><a href="#q-19" class="nav-link"><span class="nav-num">19</span><span class="nav-text">punchthrough가 뭐야?</span></a></li>
+      <li class="nav-item"><a href="#q-20" class="nav-link"><span class="nav-num">20</span><span class="nav-text">subthreshold current가 뭐야?</span></a></li>
+      <li class="nav-item"><a href="#q-21" class="nav-link"><span class="nav-num">21</span><span class="nav-text">vt 작아지면 좋은 거 아닌가?</span></a></li>
+      <li class="nav-item"><a href="#q-22" class="nav-link"><span class="nav-num">22</span><span class="nav-text">채널에 음이온으로 charge 형성된다는 게 무슨 말이야?</span></a></li>
+      <li class="nav-item"><a href="#q-23" class="nav-link"><span class="nav-num">23</span><span class="nav-text">S/D-Body 공핍층 침범으로 charge sharing되는 게 vt roll off야?</span></a></li>
+      <li class="nav-item"><a href="#q-24" class="nav-link"><span class="nav-num">24</span><span class="nav-text">vt roll off와 dibl을 알려줘</span></a></li>
+    </ul>
+  </aside>
+
+  <!-- 메인 컨텐츠 영역 -->
+  <main>
+    <header class="main-header">
+      <div class="badge-top">질문 기반 역순(최신순) 마스터 핸드북</div>
+      <h2 class="main-title">반도체 소자 물리 & 단채널 효과 Q&A 백과사전</h2>
+      <p class="main-desc">질문자님께서 질문하신 문장 그대로 좌측 탭 제목과 본문 제목을 구성하였습니다. 최상단에는 가장 최근 질문인 <strong>'halo implant가 punchthrough 개선하는 메커니즘'</strong>이 1번으로 위치합니다.</p>
+    </header>
+
+    <!-- Q 01 : halo implant가 punchthrough 개선하는 메커니즘 -->
+    <section class="topic-section latest-card-highlight" id="q-01">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 01</span>
+          <span class="latest-tag">⭐ 가장 최근 질문 (1번 배치)</span>
+          <h2 class="topic-title">halo implant가 punchthrough 개선하는 메커니즘</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"헤일로 이온 주입(Halo / Pocket Implant)은 소스/드레인 접합부 하단 및 코너 기판 영역에 웰과 동일한 타입의 고농도 불순물($P^+$)을 국소적으로 주입하는 공정입니다."</strong></li>
+          <li><strong>"공핍층 폭 공식($W_{dep} \propto 1/\sqrt{N_A}$)에 따라 국소 도핑 농도($N_A$)가 대폭 증가하면서, 드레인 고전압 인가 시 기판 지하 벌크로 확장되는 공핍층 폭을 물리적으로 강력하게 압축·차단합니다."</strong></li>
+          <li><strong>"이로 인해 소스와 드레인 공핍층이 기판 지하에서 서로 맞닿아 전위 장벽이 붕괴되는 '공핍층 결합(Merge)'을 원천 봉쇄하여, 게이트 통제를 벗어난 대량 지하 누설 전류인 펀치스루(Punchthrough)를 완벽히 억제합니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <!-- SVG 그래픽 다이어그램: Halo Implant의 펀치스루 차단 메커니즘 -->
+        <div style="background:#090d1a; border:1px solid #1e293b; border-radius:12px; padding:20px; margin:20px 0; box-shadow:0 6px 20px rgba(0,0,0,0.4);">
+          <div style="font-size:0.95rem; font-weight:700; color:#38bdf8; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+            📊 [소자 단면 비교] Halo 미적용(공핍층 결합 펀치스루 폭주) vs Halo 적용(공핍층 압축 및 장벽 수호)
+          </div>
+          <svg viewBox="0 0 780 410" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="display:block; overflow:visible;">
+            <defs>
+              <!-- Gradient definitions -->
+              <linearGradient id="depNoHaloGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="rgba(239, 68, 68, 0.25)"/>
+                <stop offset="50%" stop-color="rgba(239, 68, 68, 0.45)"/>
+                <stop offset="100%" stop-color="rgba(239, 68, 68, 0.25)"/>
+              </linearGradient>
+              <linearGradient id="depHaloGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="rgba(14, 165, 233, 0.2)"/>
+                <stop offset="100%" stop-color="rgba(14, 165, 233, 0.05)"/>
+              </linearGradient>
+              <linearGradient id="haloPocketGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#6366f1"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Base Canvas -->
+            <rect width="780" height="410" rx="10" fill="#0b1120" stroke="#1e293b" stroke-width="1.2"/>
+
+            <!-- Divider Line -->
+            <line x1="390" y1="20" x2="390" y2="390" stroke="#334155" stroke-dasharray="4 4" stroke-width="1.5"/>
+
+            <!-- ================= LEFT: WITHOUT HALO ================= -->
+            <text x="30" y="38" fill="#f43f5e" font-size="13" font-weight="800">❌ [1] Halo 미적용 (저농도 기판 P-Sub, N_A 낮음)</text>
+            
+            <!-- Silicon Substrate Left -->
+            <rect x="25" y="55" width="340" height="230" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1.2"/>
+            <text x="35" y="270" fill="#64748b" font-size="11" font-weight="600">P-기판 (저농도 N_A)</text>
+
+            <!-- Source N+ (Left) -->
+            <rect x="25" y="55" width="70" height="55" fill="#1e293b" stroke="#0ea5e9" stroke-width="1.2"/>
+            <text x="42" y="88" fill="#38bdf8" font-size="11.5" font-weight="700">Source</text>
+            <text x="45" y="102" fill="#94a3b8" font-size="9">(N⁺)</text>
+
+            <!-- Drain N+ (Left) -->
+            <rect x="295" y="55" width="70" height="55" fill="#1e293b" stroke="#0ea5e9" stroke-width="1.2"/>
+            <text x="314" y="88" fill="#38bdf8" font-size="11.5" font-weight="700">Drain</text>
+            <text x="313" y="102" fill="#f43f5e" font-size="9">(V_D=High)</text>
+
+            <!-- Gate Left -->
+            <rect x="130" y="35" width="130" height="20" fill="#334155" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="130" y="51" width="130" height="4" fill="#38bdf8"/>
+            <text x="175" y="49" fill="#f8fafc" font-size="11" font-weight="700">Gate</text>
+
+            <!-- Merged Depletion Region (Left) -->
+            <path d="M 95 110 Q 195 200 295 110 L 295 55 L 365 55 L 365 140 Q 200 240 25 140 L 25 55 L 95 55 Z" fill="url(#depNoHaloGrad)" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <text x="120" y="145" fill="#f43f5e" font-size="11" font-weight="800">공핍층 결합 발생! (Merge)</text>
+
+            <!-- Punchthrough Leakage Current Path (Left) -->
+            <path d="M 75 110 Q 195 175 315 110" fill="none" stroke="#f43f5e" stroke-width="3"/>
+            <polygon points="315,110 302,104 306,113" fill="#f43f5e"/>
+            <text x="110" y="195" fill="#fecaca" font-size="11" font-weight="800">⚡ 지하 펀치스루 누설 전류 (I_PT)</text>
+            <text x="105" y="210" fill="#f87171" font-size="10">게이트 통제 불능! (장벽 붕괴)</text>
+
+            <!-- Explanation Box Left -->
+            <rect x="25" y="295" width="340" height="95" rx="6" fill="rgba(244, 63, 94, 0.08)" stroke="#f43f5e" stroke-width="1"/>
+            <text x="35" y="316" fill="#f43f5e" font-size="11" font-weight="700">⚠️ 문제 메커니즘:</text>
+            <text x="35" y="334" fill="#cbd5e1" font-size="10.5">• 기판 농도(N_A)가 낮아 드레인 공핍층이 지하로 길게 확장</text>
+            <text x="35" y="352" fill="#cbd5e1" font-size="10.5">• 소스-드레인 공핍층 결합으로 지하 전위 장벽 소멸</text>
+            <text x="35" y="370" fill="#f87171" font-size="10.5">• 게이트가 꺼져도 지하로 전자가 쏟아져 대량 오프 누설 발생</text>
+
+
+            <!-- ================= RIGHT: WITH HALO IMPLANT ================= -->
+            <text x="415" y="38" fill="#10b981" font-size="13" font-weight="800">✅ [2] Halo(Pocket) 적용 (국소 고농도 P⁺ 주머니 방어벽)</text>
+            
+            <!-- Silicon Substrate Right -->
+            <rect x="415" y="55" width="340" height="230" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1.2"/>
+            <text x="425" y="270" fill="#64748b" font-size="11" font-weight="600">P-기판 (저농도 N_A)</text>
+
+            <!-- Source N+ (Right) -->
+            <rect x="415" y="55" width="70" height="55" fill="#1e293b" stroke="#0ea5e9" stroke-width="1.2"/>
+            <text x="432" y="88" fill="#38bdf8" font-size="11.5" font-weight="700">Source</text>
+            <text x="435" y="102" fill="#94a3b8" font-size="9">(N⁺)</text>
+
+            <!-- Drain N+ (Right) -->
+            <rect x="685" y="55" width="70" height="55" fill="#1e293b" stroke="#0ea5e9" stroke-width="1.2"/>
+            <text x="704" y="88" fill="#38bdf8" font-size="11.5" font-weight="700">Drain</text>
+            <text x="703" y="102" fill="#f43f5e" font-size="9">(V_D=High)</text>
+
+            <!-- Gate Right -->
+            <rect x="520" y="35" width="130" height="20" fill="#334155" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="520" y="51" width="130" height="4" fill="#38bdf8"/>
+            <text x="565" y="49" fill="#f8fafc" font-size="11" font-weight="700">Gate</text>
+
+            <!-- Halo Pockets (Purple/Violet) -->
+            <!-- Source side Halo -->
+            <path d="M 470 110 Q 500 135 505 85 L 485 55 L 485 110 Z" fill="url(#haloPocketGrad)" stroke="#a78bfa" stroke-width="1.5"/>
+            <!-- Drain side Halo -->
+            <path d="M 695 110 Q 665 135 660 85 L 685 55 L 685 110 Z" fill="url(#haloPocketGrad)" stroke="#a78bfa" stroke-width="1.5"/>
+            <text x="635" y="145" fill="#a78bfa" font-size="10.5" font-weight="700">Halo (P⁺)</text>
+            <text x="465" y="145" fill="#a78bfa" font-size="10.5" font-weight="700">Halo (P⁺)</text>
+
+            <!-- Narrow Depletion Regions (Right) -->
+            <path d="M 485 55 Q 515 115 485 125 L 415 125 L 415 55 Z" fill="url(#depHaloGrad)" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="2 2"/>
+            <path d="M 685 55 Q 645 115 685 130 L 755 130 L 755 55 Z" fill="url(#depHaloGrad)" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="2 2"/>
+
+            <!-- Robust Barrier Zone -->
+            <rect x="525" y="105" width="120" height="50" rx="6" fill="rgba(16, 185, 129, 0.12)" stroke="#10b981" stroke-width="1.2"/>
+            <text x="545" y="125" fill="#34d399" font-size="11" font-weight="800">🛡️ 견고한 장벽 유지</text>
+            <text x="535" y="143" fill="#cbd5e1" font-size="9.5">공핍층 결합 완벽 차단! (I_PT=0)</text>
+
+            <!-- Explanation Box Right -->
+            <rect x="415" y="295" width="340" height="95" rx="6" fill="rgba(16, 185, 129, 0.08)" stroke="#10b981" stroke-width="1"/>
+            <text x="425" y="316" fill="#10b981" font-size="11" font-weight="700">💡 차단 메커니즘 (해결책):</text>
+            <text x="425" y="334" fill="#cbd5e1" font-size="10.5">• 접합 코너에 국소 고농도 P⁺ 포켓 형성 (W_dep ∝ 1/√N_A)</text>
+            <text x="425" y="352" fill="#cbd5e1" font-size="10.5">• 드레인 공핍층 확장을 1/5 수준으로 강력 압축하여 격리</text>
+            <text x="425" y="370" fill="#34d399" font-size="10.5">• 지하 전위 장벽을 사수하여 펀치스루 원천 봉쇄!</text>
+          </svg>
+        </div>
+
+        <h3>1. 펀치스루(Punchthrough)의 근본 원인과 지하 누설 경로</h3>
+        <p>채널 길이가 서브 미크론(Sub-micron) 이하로 짧아질 때, 드레인 전압($V_D$)을 높이면 드레인 접합부에서 기판 벌크 방향으로 확장되는 <strong>역방향 바이어스 공핍층</strong>이 기판 지하 깊은 곳을 통해 소스 접합부 공핍층과 물리적으로 맞닿게 됩니다(<strong>Depletion Region Merge</strong>).</p>
+        <p>공핍층이 결합하는 순간, 소스-기판 접합부에 형성되어 전자의 이동을 가로막고 있던 <strong>내장 전위 장벽(Built-in Potential Barrier)이 지하에서 완전히 붕괴</strong>합니다. 표면 채널은 게이트 전압($V_G$)으로 끌 수 있지만, 게이트 정전기 통제력이 미치지 못하는 깊은 지하 벌크를 통해 소스의 전자가 드레인으로 제어 불능 상태로 쏟아져 들어가는 현상이 바로 <strong>펀치스루(Punchthrough)</strong>입니다.</p>
+
+        <h3>2. 헤일로(Pocket) 도핑에 의한 공핍층 폭 압축 공식</h3>
+        <p>p-n 접합부에서 역방향 전압 인가 시 기판 쪽으로 침투하는 공핍층의 폭($W_{dep}$)은 기판의 도핑 농도($N_A$)에 반비례합니다:</p>
+        <div class="formula-box">
+          $$W_{dep} = \sqrt{rac{2\epsilon_{si}(V_{bi} + V_R)}{q \cdot \mathbf{N_A}}} \quad \propto \quad rac{1}{\sqrt{\mathbf{N_A}}}$$
+        </div>
+        <p>기판 전체가 저농도($N_A pprox 10^{15}\,	ext{cm}^{-3}$)일 때는 $W_{dep}$가 매우 길어져 드레인 공핍층이 쉽게 소스까지 닿습니다. 그러나 소스/드레인 접합 하단 및 코너에 <strong>헤일로 이온 주입($P^+$ Pocket, $N_A pprox 10^{18}\,	ext{cm}^{-3}$)</strong>을 적용하면:</p>
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--text-sub);">
+          <li>국소 영역의 <strong>$N_A$가 100~1,000배 증가</strong>합니다.</li>
+          <li>공핍층 폭($W_{dep}$)은 <strong>$1/\sqrt{1000} pprox 1/30$ 수준으로 극단적으로 얇게 압축</strong>됩니다.</li>
+          <li>드레인에 고전압이 걸려도 공핍층이 헤일로 주머니 바깥으로 뻗어나가지 못하고 갇히므로, <strong>소스 공핍층과의 결합이 물리적으로 완벽히 차단</strong>됩니다.</li>
+        </ul>
+
+        <h3>3. 전면 고농도 도핑 대비 '국소 헤일로(Pocket)'만의 결정적 강점</h3>
+        <p>펀치스루를 막기 위해 기판 전체(Well 전체)의 도핑 농도를 균일하게 높이면 심각한 부작용이 발생합니다:</p>
+        <div class="formula-box">
+          $$\mu = rac{\mu_0}{1 + (N_A / N_{ref})^lpha} \quad (	ext{이온화 불순물 산란}), \quad V_{th} = V_{FB} + 2\phi_F + rac{\sqrt{2q\epsilon N_A (2\phi_F)}}{C_{ox}}$$
+        </div>
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--text-sub);">
+          <li><strong>이동도 저하 방지</strong>: 채널 표면 전체의 농도를 높이면 이온화 불순물 산란(Ionized Impurity Scattering)에 의해 전자 이동도($\mu$)와 온전류($I_{on}$)가 급감합니다. 헤일로는 접합부 코너에만 국소적으로 치고 빠지므로 채널 중심부의 표면 이동도를 온전히 보존합니다.</li>
+          <li><strong>문턱전압($V_{th}$) 급상승 억제</strong>: 전체 기판 도핑 시 $V_{th}$가 과도하게 치솟는 문제를 방지합니다.</li>
+          <li><strong>접합 정전용량($C_j$) 최소화</strong>: S/D 바닥면 전체가 아닌 코너 측면에만 한정 형성하므로 바닥면 기생 접합 커패시턴스 증가를 최소화하여 동작 속도(RC Delay)를 확보합니다.</li>
+        </ul>
+
+        <h3>4. 실제 반도체 양산 공정과 수반 현상 (RSCE)</h3>
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--text-sub);">
+          <li><strong>경사 회전 이온 주입 (Quad-Tilt Implant)</strong>: 게이트 패턴 형성 후, 게이트 밑바닥 코너와 LDD 하부로 도펀트가 파고들 수 있도록 웨이퍼를 20°~45° 기울이고 4방향 90°씩 회전(Quad-rotation)시키며 이온을 주입합니다. (NMOS: $B^+$, $BF_2^+$, $In^+$ / PMOS: $As^+$, $P^+$)</li>
+          <li><strong>역 단채널 효과 (RSCE, Reverse Short Channel Effect)</strong>: 채널 길이가 줄어들 때, 소스 측 헤일로와 드레인 측 헤일로가 서로 가까워져 채널 중심부까지 유효 도핑 농도가 높아지면서 <strong>단채널에서 일시적으로 $V_{th}$가 오히려 증가하는 현상</strong>이 발생합니다. 이는 단채널의 $V_{th}$ 롤오프를 보상하는 훌륭한 안전판 역할을 합니다.</li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- Q 01 : 표면쪽 농도를 감소시키면 drain side의 높은 전계를 낮추는 메커니즘이 뭐야? -->
+    <section class="topic-section" id="q-02">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 02</span>
+          <h2 class="topic-title">표면쪽 농도를 감소시키면 drain side의 높은 전계를 낮추는 메커니즘이 뭐야?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"표면 쪽 불순물 농도($N$)를 낮추면 푸아송 방정식($\frac{d\mathcal{E}}{dx} = \frac{qN}{\epsilon}$)에 의해 공간 전하 밀도($\rho$)가 줄어들어 전기장의 공간적 기울기가 완만해집니다."</strong></li>
+          <li><strong>"도핑 농도가 낮아진 만큼 표면 접합부의 공핍층 폭($W_{dep} \propto 1/\sqrt{N}$)이 넓게 확장되므로, 동일한 드레인 전압 강하가 긴 거리에 걸쳐 분산되어 최고 전계 피크($\mathcal{E}_{max}$)가 급격히 낮아집니다."</strong></li>
+          <li><strong>"결과적으로 드레인 코너 표면에 집중되던 수평 및 수직 전계의 집중(Field Crowding)이 해소되어 핫 캐리어 주입(HCI)과 GIDL 누설을 동시에 억제하게 됩니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <!-- SVG 그래픽 다이어그램: 표면 농도 감소와 전계 피크 완화 -->
+        <div style="background:#090d1a; border:1px solid #1e293b; border-radius:12px; padding:20px; margin:20px 0; box-shadow:0 6px 20px rgba(0,0,0,0.4);">
+          <div style="font-size:0.95rem; font-weight:700; color:#38bdf8; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+            📊 [전기장 프로파일 비교] 표면 고농도(급격한 피크) vs 표면 농도 감소(완만한 전계 분산)
+          </div>
+          <svg viewBox="0 0 760 360" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="display:block; overflow:visible;">
+            <defs>
+              <linearGradient id="q1HighDop" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="rgba(244, 63, 94, 0.1)"/>
+                <stop offset="100%" stop-color="rgba(244, 63, 94, 0.45)"/>
+              </linearGradient>
+              <linearGradient id="q1LowDop" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="rgba(16, 185, 129, 0.1)"/>
+                <stop offset="100%" stop-color="rgba(16, 185, 129, 0.45)"/>
+              </linearGradient>
+            </defs>
+            <rect width="760" height="360" rx="10" fill="#0b1120" stroke="#1e293b" stroke-width="1.2"/>
+            <line x1="60" y1="310" x2="710" y2="310" stroke="#334155" stroke-width="1.5"/>
+            <line x1="60" y1="310" x2="60" y2="30" stroke="#334155" stroke-width="1.5"/>
+            <text x="60" y="22" fill="#94a3b8" font-size="11.5" font-family="'JetBrains Mono', monospace">전기장 세기 (E) ▲</text>
+            <text x="640" y="332" fill="#94a3b8" font-size="11.5" font-family="'JetBrains Mono', monospace">드레인 접합 거리 (x) ►</text>
+
+            <!-- 고농도 표면: 좁은 밑변, 치솟는 피크 -->
+            <path d="M 270 310 L 360 55 L 410 310 Z" fill="url(#q1HighDop)" stroke="#f43f5e" stroke-width="3"/>
+            <circle cx="360" cy="55" r="5" fill="#f43f5e"/>
+            <text x="370" y="60" fill="#f43f5e" font-size="13" font-weight="800">E_max (고농도 표면: 공간 전하 밀도 ρ 높아 피크 폭증!)</text>
+
+            <!-- 표면 농도 감소: 넓은 밑변, 완만한 피크 -->
+            <path d="M 200 310 L 340 180 L 520 310 Z" fill="url(#q1LowDop)" stroke="#10b981" stroke-width="3"/>
+            <circle cx="340" cy="180" r="5" fill="#10b981"/>
+            <text x="350" y="185" fill="#10b981" font-size="13" font-weight="800">E_max (표면 농도 감소: 공핍층 W_dep 확장으로 피크 절반 완화!)</text>
+
+            <!-- 면적 일정 주석 -->
+            <rect x="520" y="85" width="210" height="60" rx="8" fill="rgba(15, 23, 42, 0.9)" stroke="#0284c7" stroke-width="1.5"/>
+            <text x="532" y="107" fill="#38bdf8" font-size="12" font-weight="700">💡 면적(전압 강하 ΔV)은 동일!</text>
+            <text x="532" y="127" fill="#cbd5e1" font-size="11">밑변이 2~3배 넓어져 높이가 낮아짐</text>
+          </svg>
+        </div>
+
+        <h3>1. 푸아송 방정식(Poisson's Equation)과 공간 전하 밀도</h3>
+        <p>전기장의 공간적 기울기는 공간 전하 밀도($\rho = qN$)에 비례합니다:</p>
+        <div class="formula-box">
+          $$\frac{d\mathcal{E}}{dx} = \frac{\rho(x)}{\epsilon_{si}} = \frac{q \cdot \mathbf{N_{surface}}}{\epsilon_{si}}$$
+        </div>
+        <p>표면 농도($N_{surface}$)가 낮아지면 전하 밀도가 희박해져 전기장 그래프의 기울기가 완만해집니다.</p>
+
+        <h3>2. 공핍층 폭($W_{dep}$) 확장과 삼각형 면적 법칙</h3>
+        <div class="formula-box">
+          $$\Delta V = \int \mathcal{E}(x) dx \approx \frac{1}{2} \cdot \mathcal{E}_{max} \cdot \mathbf{W_{dep}} = \text{일정 (드레인 전압)}$$
+        </div>
+        <p>공핍층 폭 공식($W_{dep} \propto 1/\sqrt{N}$)에 따라 농도가 낮아지면 밑변($W_{dep}$)이 2~3배로 넓어지므로, 같은 전압 면적을 채우기 위해 삼각형 높이인 최대 전계 피크($\mathcal{E}_{max}$)가 절반 이하로 자동 하강합니다.</p>
+
+        <h3>3. 2차원 전계 집중(Field Crowding) 해소</h3>
+        <p>드레인 표면 코너는 게이트 수직 전계와 드레인 수평 전계가 교차하는 지점입니다. 표면 농도를 낮추면 얇게 달라붙어 있던 전기력선이 넓은 체적으로 부드럽게 퍼져나가며 국소 전계 집중이 완벽히 해소됩니다.</p>
+      </div>
+    </section>
+
+
+    <!-- Q 01 : gidl에서 밴드간터널링이 뭐야? -->
+    <section class="topic-section" id="q-03">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 03</span>
+          <h2 class="topic-title">gidl에서 밴드간터널링이 뭐야?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"밴드 간 터널링(BTBT)은 드레인 표면의 극단적인 수직 전기장으로 인해 에너지 밴드가 가파르게 꺾이면서, 가전자대($E_V$)의 전자가 밴드갭 장벽을 양자역학적으로 뚫고 전도대($E_C$)로 순간이동하는 현상입니다."</strong></li>
+          <li><strong>"게이트와 드레인이 겹치는 오버랩 영역에 강한 전압차($V_D=\text{High}, V_G \le 0\,\text{V}$)가 걸리면 두 밴드 사이의 물리적 거리(터널링 장벽 두께)가 수 나노미터 이하로 얇아져 터널링 확률이 폭증합니다."</strong></li>
+          <li><strong>"이로 인해 생성된 전자는 드레인으로 끌려가 오프 누설 전류(GIDL)가 되고, 정공은 기판으로 배출되어 트랜지스터가 꺼져 있는데도 전류가 줄줄 새어나가게 됩니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <h3>1. 물리적 실체: 정상 상태 vs 초고전계 상태</h3>
+        <p>실리콘 가전자대의 전자가 전도대로 가려면 원래 $1.12\,\text{eV}$의 밴드갭을 뛰어넘는 열에너지가 필요합니다. 그러나 $1\,\text{MV/cm}$ 이상의 초고전계가 걸리면 밴드가 수직으로 급격하게 곤두박질칩니다.</p>
+
+        <!-- SVG 그래픽 다이어그램: BTBT 터널링 실체 -->
+        <div style="background:#090d1a; border:1px solid #1e293b; border-radius:12px; padding:20px; margin:20px 0; box-shadow:0 6px 20px rgba(0,0,0,0.4);">
+          <div style="font-size:0.95rem; font-weight:700; color:#38bdf8; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+            📊 [에너지 밴드 다이어그램] 초고전계 하의 밴드 간 터널링(BTBT) 및 캐리어 분리
+          </div>
+          <svg viewBox="0 0 760 380" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="display:block; overflow:visible;">
+            <defs>
+              <linearGradient id="ecGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#38bdf8"/>
+                <stop offset="100%" stop-color="#0284c7"/>
+              </linearGradient>
+              <linearGradient id="evGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f43f5e"/>
+                <stop offset="100%" stop-color="#be123c"/>
+              </linearGradient>
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3.5" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+              <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+              </marker>
+              <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+              </marker>
+              <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#f43f5e"/>
+              </marker>
+              <marker id="arrow-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+              </marker>
+            </defs>
+
+            <!-- 배경 그리드 & 축 -->
+            <rect width="760" height="380" rx="10" fill="#0b1120" stroke="#1e293b" stroke-width="1.2"/>
+            <line x1="55" y1="330" x2="715" y2="330" stroke="#334155" stroke-width="1.5"/>
+            <line x1="55" y1="330" x2="55" y2="35" stroke="#334155" stroke-width="1.5"/>
+            <text x="55" y="24" fill="#94a3b8" font-size="11.5" font-family="'JetBrains Mono', monospace">에너지 (E) ▲</text>
+            <text x="655" y="352" fill="#94a3b8" font-size="11.5" font-family="'JetBrains Mono', monospace">위치 (x) ►</text>
+
+            <!-- 영역 표시 -->
+            <text x="90" y="52" fill="#64748b" font-size="11" font-weight="600">[ 게이트 절연막 표면 ]</text>
+            <text x="580" y="52" fill="#64748b" font-size="11" font-weight="600">[ N⁺ 드레인 전극 방향 ]</text>
+
+            <!-- 전도대 (Ec) 곡선 -->
+            <path d="M 70 70 C 160 75, 230 190, 340 240 L 700 255" fill="none" stroke="url(#ecGrad)" stroke-width="3.5" filter="url(#glow)"/>
+            <text x="75" y="62" fill="#38bdf8" font-size="13.5" font-weight="700">전도대 (E_C)</text>
+
+            <!-- 가전자대 (Ev) 곡선 -->
+            <path d="M 70 180 C 160 185, 230 300, 340 350 L 700 365" fill="none" stroke="url(#evGrad)" stroke-width="3.5" filter="url(#glow)"/>
+            <text x="75" y="198" fill="#f43f5e" font-size="13.5" font-weight="700">가전자대 (E_V)</text>
+
+            <!-- 밴드갭 표시 (Eg = 1.12 eV) -->
+            <line x1="140" y1="80" x2="140" y2="185" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.2"/>
+            <circle cx="140" cy="80" r="3" fill="#38bdf8"/>
+            <circle cx="140" cy="185" r="3" fill="#f43f5e"/>
+            <text x="148" y="136" fill="#cbd5e1" font-size="11" font-weight="600">밴드갭 E_g = 1.12 eV</text>
+
+            <!-- BTBT 터널링 화살표 (수평 순간이동) -->
+            <line x1="165" y1="188" x2="265" y2="188" stroke="#f59e0b" stroke-width="3" stroke-dasharray="5 3" marker-end="url(#arrow-amber)"/>
+
+            <!-- 터널링 장벽 거리 d_tunnel -->
+            <line x1="170" y1="210" x2="260" y2="210" stroke="#38bdf8" stroke-width="1.5"/>
+            <line x1="170" y1="205" x2="170" y2="215" stroke="#38bdf8" stroke-width="1.5"/>
+            <line x1="260" y1="205" x2="260" y2="215" stroke="#38bdf8" stroke-width="1.5"/>
+            <text x="175" y="226" fill="#38bdf8" font-size="10.5" font-weight="700">d_tunnel ≤ 3~5 nm</text>
+
+            <!-- 전자(e-) 방출 및 드레인 유입 -->
+            <circle cx="265" cy="188" r="7" fill="#10b981" stroke="#ffffff" stroke-width="2" filter="url(#glow)"/>
+            <text x="259" y="192" fill="#ffffff" font-size="10" font-weight="800">e⁻</text>
+            <path d="M 280 192 Q 350 225 460 246" fill="none" stroke="#10b981" stroke-width="2.2" stroke-dasharray="4 3" marker-end="url(#arrow-green)"/>
+            <text x="472" y="242" fill="#10b981" font-size="12" font-weight="700">전자 드레인 유입 ➔ GIDL 누설 전류 (I_D)</text>
+
+            <!-- 정공(h+) 방출 및 기판 이동 -->
+            <circle cx="165" cy="188" r="7" fill="#f43f5e" stroke="#ffffff" stroke-width="2" filter="url(#glow)"/>
+            <text x="160" y="192" fill="#ffffff" font-size="10" font-weight="800">h⁺</text>
+            <path d="M 150 192 Q 115 220 80 235" fill="none" stroke="#f43f5e" stroke-width="2.2" stroke-dasharray="4 3" marker-end="url(#arrow-red)"/>
+            <text x="60" y="255" fill="#f43f5e" font-size="11.5" font-weight="700">정공 기판 배출 (I_sub)</text>
+
+            <!-- 터널링 설명 박스 -->
+            <rect x="235" y="110" width="250" height="52" rx="8" fill="rgba(15, 23, 42, 0.92)" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="248" y="131" fill="#f59e0b" font-size="12" font-weight="700">⚡ 양자역학적 BTBT 터널링</text>
+            <text x="248" y="148" fill="#e2e8f0" font-size="10.5">금지대 장벽을 파동으로 뚫고 통과!</text>
+
+            <!-- 전기장 기울기 표시 -->
+            <path d="M 210 65 L 285 95" fill="none" stroke="#e2e8f0" stroke-width="1.8" marker-end="url(#arrow-blue)"/>
+            <text x="295" y="85" fill="#38bdf8" font-size="11" font-weight="600">초고전계 (E > 1 MV/cm)</text>
+            <text x="295" y="100" fill="#94a3b8" font-size="10">가파른 밴드 휨 (Slope = -qE)</text>
+          </svg>
+        </div>
+    
+        <div class="formula-box">
+          $$d_{tunnel} \approx \frac{E_g}{q \cdot \mathbf{E_{surface}}} \quad \implies \quad I_{BTBT} \propto E^2 \exp\left(-\frac{B}{E}\right)$$
+        </div>
+        <h3>2. 캐리어 분리와 특징</h3>
+        <ul>
+          <li><strong>전자</strong>: 드레인의 높은 양전압에 이끌려 드레인으로 유입 $\rightarrow$ <strong>GIDL 누설 전류 ($I_D$)</strong></li>
+          <li><strong>정공</strong>: 가전자대에 남겨진 빈자리(정공)는 기판으로 방출 $\rightarrow$ <strong>기판 전류 ($I_{sub}$)</strong></li>
+          <li><strong>온도 비의존성</strong>: 열에너지가 아닌 양자역학적 확률 현상이므로 영하의 저온 환경에서도 누설이 줄어들지 않습니다.</li>
+        </ul>
+        <div class="analogy-card">
+          <div class="analogy-title">직관적 비유: '두꺼운 콘크리트벽 vs 랩(Wrap)'</div>
+          <div class="analogy-desc">두께 10m짜리 콘크리트벽(밴드갭)을 강한 전기장이 극한으로 압축하여 <strong>0.1mm짜리 비닐 랩 수준으로 얇게 짓눌러버린 상태</strong>가 되어, 전자가 랩을 툭 치고 반대편으로 순간이동해 탈출하는 현상입니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q 02 : gate spacer가 핫캐리어와 gidl억제하는메커지ㅡ -->
+    <section class="topic-section" id="q-04">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 04</span>
+          <h2 class="topic-title">gate spacer가 핫캐리어와 gidl 억제하는 메커니즘</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"게이트 스페이서는 LDD 형성을 위한 자기정렬 마스크이자 고농도 $N^+$ 드레인을 게이트 바깥으로 밀어내는 물리적 방패 역할을 합니다."</strong></li>
+          <li><strong>"핫 캐리어 관점에서는 스페이서 하부의 $N^-$ 영역이 공핍층을 넓혀 드레인 끝단의 수평 전기장 피크($E_{lateral,max}$)를 낮춤으로써 전자의 과속과 충격 이온화를 억제합니다."</strong></li>
+          <li><strong>"GIDL 관점에서는 게이트와 $N^+$ 간의 물리적 오버랩을 차단하고 표면 수직 전계를 완화하여 밴드 간 터널링(BTBT) 누설을 원천 봉쇄합니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <h3>1. 스페이서의 2단계 자기정렬 공정 역할</h3>
+        <p>스페이서가 없을 때 얕고 연한 $N^-$ LDD를 주입하고, 스페이서를 세운 뒤 깊고 진한 $N^+$를 주입합니다. 이를 통해 고농도 $N^+$는 게이트 밖으로 밀려나고 스페이서 하부에 $N^-$ 완충 지대가 완성됩니다.</p>
+      </div>
+    </section>
+
+    <!-- Q 03 : ldd가 dibl에 좋은점 설명 -->
+    <section class="topic-section" id="q-05">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 05</span>
+          <h2 class="topic-title">ldd가 dibl에 좋은 점 설명</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"LDD는 채널 바로 옆의 접합 깊이($X_j$)를 극도로 얕게(Ultra-Shallow) 형성하여, 드레인 전기력선이 기판 하부를 우회해 소스 장벽을 침범하는 2차원 통로를 물리적으로 차단합니다."</strong></li>
+          <li><strong>"고전압이 걸리는 $N^+$ 본체를 채널에서 스페이서 두께만큼 물리적으로 멀리 떨어뜨려 놓아 정전기적 결합 세기를 약화시킵니다."</strong></li>
+          <li><strong>"결과적으로 드레인이 채널의 공핍 전하를 가로채는 전하 분할(Charge Sharing) 부피 자체가 줄어들어 DIBL이 크게 개선됩니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <div class="analogy-card">
+          <div class="analogy-title">직관적 비유: '뜨거운 난로와 온수 파이프'</div>
+          <div class="analogy-desc">뜨거운 난로($N^+$ 고전압 본체)는 방 바깥 복도 멀리 밀어내고, 방 문 앞에는 미지근하고 가는 온수 파이프($N^-$ 얕은 LDD)만 살짝 대놓아 얼음(소스 장벽)이 녹지 않게 보호하는 원리입니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q 04 : ldd로 dibl , gidl둘다막을수잇나 -->
+    <section class="topic-section" id="q-06">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 06</span>
+          <h2 class="topic-title">ldd로 dibl, gidl 둘 다 막을 수 있나?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"네, LDD 구조는 GIDL을 직접적으로 차단하고, 얕은 접합 깊이로 DIBL 억제에도 크게 기여합니다."</strong></li>
+          <li><strong>"GIDL은 고농도 $N^+$ 대신 저농도 $N^-$가 위치해 밴드 휨이 완만해지며 BTBT가 사라져 확실히 방어됩니다."</strong></li>
+          <li><strong>"DIBL은 얕은 접합으로 개선되지만 저농도($N^-$)로 인해 공핍층이 채널로 번질 수 있어, 실제 공정에서는 이를 막아주는 'Halo 도핑'과 한 쌍으로 함께 적용합니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <p>LDD($N^-$) 단독으로는 공핍층이 채널로 넓어질 위험이 있으므로, 양산 라인에서는 채널 끝단 하부에 고농도 기판 타입 불순물을 넣는 **Halo(Pocket)** 도핑과 짝을 지어 DIBL을 완벽 통제합니다.</p>
+      </div>
+    </section>
+
+    <!-- Q 05 : shadow junction depth profile은뭐야? -->
+    <section class="topic-section" id="q-07">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 07</span>
+          <h2 class="topic-title">shallow junction depth profile은 뭐야?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"소스/드레인의 불순물 접합 깊이($X_j$)를 기판 표면으로부터 수 나노미터 수준으로 극도로 얕고 가파르게 제어한 도핑 농도 분포 곡선입니다."</strong></li>
+          <li><strong>"접합 깊이가 얕아지면 드레인 전계가 기판 하부로 우회하는 경로를 차단하여 DIBL, 펀치스루 등 단채널 효과와 측면 공핍 커패시턴스를 획기적으로 줄입니다."</strong></li>
+          <li><strong>"얇아진 접합으로 인한 면저항 증가는 초급속 레이저 열처리(LSA)와 위로 살을 덧붙이는 Raised S/D 공정으로 극복합니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <p>초저에너지 이온 주입(Sub-keV)과 레이저 스파이크 열처리(LSA)를 적용하여 불순물이 기판 깊은 곳으로 열확산하지 못하도록 제자리에 동결시킵니다.</p>
+      </div>
+    </section>
+
+    <!-- Q 06 : ldd한다고 어떻게 수평전기장피크를낮추는건데 -->
+    <section class="topic-section" id="q-08">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 08</span>
+          <h2 class="topic-title">ldd한다고 어떻게 수평전기장피크를 낮추는 건데?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"전기장은 전압을 거리로 나눈 값($E \approx \Delta V / \Delta x$)이므로, 동일한 드레인 전압 하에서 전압이 떨어지는 공핍층 거리($\Delta x$)를 늘려주기 때문입니다."</strong></li>
+          <li><strong>"고농도 $N^+$는 공핍층이 좁아 피크가 치솟지만, 저농도 $N^-$ LDD는 공핍층 밑변($W_{dep}$)을 2~3배로 넓혀 삼각형 높이($E_{max}$)가 절반 이하로 주저앉습니다."</strong></li>
+          <li><strong>"결과적으로 수직 절벽을 완만한 미끄럼틀로 바꾸어주어 전자의 과속과 충격 이온화를 원천 억제합니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <div class="formula-box">
+          $$\Delta V = \int E(x) dx \approx \frac{1}{2} \cdot E_{max} \cdot W_{dep} \quad \implies \quad E_{max} \approx \frac{2\Delta V}{W_{dep}}$$
+        </div>
+        <p>전압 $\Delta V$(삼각형 면적)가 고정되어 있을 때 밑변 $W_{dep}$를 넓혀주면 높이 $E_{max}$는 필연적으로 낮아집니다.</p>
+      </div>
+    </section>
+
+    <!-- Q 07 : ldd는 뭘개선하기위한거야 -->
+    <section class="topic-section" id="q-09">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 09</span>
+          <h2 class="topic-title">ldd는 뭘 개선하기 위한 거야?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"최우선 목적은 드레인 끝단의 수평 전기장 피크를 낮춰 핫 캐리어 효과(HCI)를 억제하고 소자 수명을 확보하는 것입니다."</strong></li>
+          <li><strong>"동시에 게이트-드레인 오버랩 영역의 수직 전계를 완화하여 GIDL 누설 전류를 대폭 줄여줍니다."</strong></li>
+          <li><strong>"전계 분산으로 드레인 항복 전압($BV$)을 높이고, 얕은 접합(Extension)으로 DIBL 단채널 효과를 완화합니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <p>농도가 연해져 직렬 저항($R_{series}$)이 늘어나는 트레이드오프가 있지만, 살리사이드(Salicide) 공정과 LDD 도핑 최적화로 구동력을 보존합니다.</p>
+      </div>
+    </section>
+
+    <!-- Q 08 : ionization발생하면 ss특성저하시키는 메커니즘 -->
+    <section class="topic-section" id="q-10">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 10</span>
+          <h2 class="topic-title">ionization 발생하면 SS 특성 저하시키는 메커니즘</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"충격 이온화로 튀어나온 정공들이 기판으로 흘러가 기판 전압 강하($I_{sub} \cdot R_{sub}$)를 일으켜 기판 전위를 띄웁니다."</strong></li>
+          <li><strong>"이로 인해 소스-바디 접합이 순방향으로 켜지면서 기생 NPN BJT가 동작하여 게이트 제어 없이 전자가 쏟아져 나와 서브스레숄드 누설이 폭증합니다."</strong></li>
+          <li><strong>"전압을 낮춰도 전류가 줄지 않고 버티는 험프(Hump)가 생겨 서브스레숄드 기울기를 눕혀버림으로써 $SS$가 급격히 악화됩니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <div class="formula-box">
+          $$SS = \ln(10) \cdot \frac{kT}{q} \left(1 + \frac{C_{dep} + \mathbf{q \cdot N_{it}}}{C_{ox}}\right)$$
+        </div>
+        <p>동시에 생성된 계면 결함 트랩($N_{it}$)이 $C_{it}$를 증가시켜 $SS$ 수치 자체를 영구적으로 키워버립니다.</p>
+      </div>
+    </section>
+
+    <!-- Q 09 : hot carrier injection이머야 -->
+    <section class="topic-section" id="q-11">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 11</span>
+          <h2 class="topic-title">hot carrier injection이 뭐야?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"트랜지스터가 켜졌을 때 드레인 핀치오프 영역의 초고전계에 의해 비정상적으로 높은 운동에너지를 얻은 전자(Hot Carrier)가 게이트 절연막으로 뛰어들어 박히는 현상입니다."</strong></li>
+          <li><strong>"격자 충돌로 전자-정공 쌍을 만드는 충격 이온화를 일으키고, $3.2\,\text{eV}$ 장벽을 넘어 산화막에 계면 트랩을 형성합니다."</strong></li>
+          <li><strong>"이로 인해 문턱 전압이 상승($\Delta V_{th} > 0$)하고 구동 전류와 속도가 저하되는 영구적인 노화(Aging) 고장을 유발합니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <p>전자의 유효 온도가 수천~수만 Kelvin으로 과열된다고 하여 'Hot'이라는 명칭이 붙었으며, 전자 수와 전계가 최적 균형을 이루는 $V_{GS} \approx \frac{1}{2} V_{DS}$ 조건에서 가장 최악으로 발생합니다.</p>
+      </div>
+    </section>
+
+    <!-- Q 10 : gidl이뭐야? -->
+    <section class="topic-section" id="q-12">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 12</span>
+          <h2 class="topic-title">gidl이 뭐야?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"트랜지스터가 꺼져 있을 때 게이트-드레인 오버랩 영역의 초고수직전계로 인해 밴드 간 터널링(BTBT)이 터져 드레인으로 새어 나오는 누설 전류입니다."</strong></li>
+          <li><strong>"스위치를 꽉 닫기 위해 게이트에 음전압($V_{GS} \le 0\,\text{V}$)을 걸수록 게이트-드레인 전압차가 벌어져 누설 전류가 도로 치솟는 'V자형 곡선'을 보입니다."</strong></li>
+          <li><strong>"DRAM 커패시터 전하를 갉아먹어 데이터 보존 시간(Retention Time)을 파괴하는 1순위 주범입니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <p>DRAM 설계 시 워드라인 오프 전압($-0.2 \sim -0.3\,\text{V}$)을 선정할 때 Subthreshold 누설과 GIDL 누설 사이의 골디락스 포인트를 잡는 것이 핵심입니다.</p>
+      </div>
+    </section>
+
+    <!-- Q 11 : depletion cap을 줄이 는 방법이 왜 shallow junction depth profile이야 -->
+    <section class="topic-section" id="q-13">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 13</span>
+          <h2 class="topic-title">depletion cap 줄이는 방법이 왜 shallow junction이야?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"커패시턴스 공식($C = \epsilon A / d$)에서 접합 깊이($X_j$)를 얕게 만들어 측면 공핍층 면적($A_{sw} = P \times X_j$)을 물리적으로 줄여버리는 원리입니다."</strong></li>
+          <li><strong>"미세 소자에서는 측면 공핍 커패시턴스가 전체의 50% 이상을 차지하므로, $X_j$ 축소를 통해 기생 Cap을 낮춰 RC 지연을 줄이고 스위칭 속도를 높입니다."</strong></li>
+          <li><strong>"동시에 드레인 전계의 기판 우회 침투를 차단하여 DIBL과 펀치스루를 함께 방어합니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <div class="formula-box">
+          $$C_{dep, junction} = C_{bottom} + C_{sidewall} = \frac{\epsilon A_{bottom}}{W_{dep,bottom}} + \frac{\epsilon \cdot (\mathbf{P \times X_j})}{W_{dep,sidewall}}$$
+        </div>
+      </div>
+    </section>
+
+    <!-- Q 12 : high k는 dibl punchthrough 둘다 공통해결법이지? -->
+    <section class="topic-section" id="q-14">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 14</span>
+          <h2 class="topic-title">high-k는 dibl, punchthrough 둘 다 공통해결법이지?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"아닙니다. High-k는 표면 채널 현상인 DIBL에는 직접적인 특효약이지만, 기판 지하 깊은 곳의 합선인 Punchthrough에는 근본적 해결책이 되지 못합니다."</strong></li>
+          <li><strong>"게이트 전계는 표면에서 깊어질수록 힘을 잃으므로, 지하 깊은 곳에서 일어나는 공핍층 결합은 High-k로 막을 수 없습니다."</strong></li>
+          <li><strong>"Punchthrough는 채널 하부에 고농도 도핑을 넣는 PTS(Punchthrough Stop)나 지하 통로 자체를 없앤 FD-SOI, FinFET으로만 막을 수 있습니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <div class="analogy-card">
+          <div class="analogy-title">직관적 비유: '강철 성문 vs 땅굴'</div>
+          <div class="analogy-desc">High-k는 지상 성문을 강화한 것이라 성문 틈새 침입(DIBL)은 완벽히 막지만, 성벽 아래 수십 미터 지하로 파고 들어오는 땅굴(Punchthrough)은 지상 성문이 아무리 단단해도 막을 수 없습니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q 13 : dibl개선방법 중 high k 메커니즘이뭐야 -->
+    <section class="topic-section" id="q-15">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 15</span>
+          <h2 class="topic-title">dibl 개선방법 중 high-k 메커니즘이 뭐야?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"터널링 누설을 막기 위해 물리적 두께($t_{phys}$)는 두껍게 유지하면서, 유전율($\kappa$)을 높여 등가산화막두께(EOT)를 줄여 게이트 커패시턴스($C_{ox}$)를 폭증시키는 원리입니다."</strong></li>
+          <li><strong>"게이트 커패시턴스($C_G$)가 드레인 커패시턴스($C_D$)를 압도하여 전압 분배 비율을 0에 가깝게 만들어 드레인이 장벽을 흔들지 못하게 합니다."</strong></li>
+          <li><strong>"특성 스케일 길이($\lambda \propto \sqrt{\text{EOT}}$)를 줄여 드레인 전계가 소스까지 닿지 못하고 채널 입구에서 지수 감쇠되도록 만듭니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <div class="formula-box">
+          $$\text{EOT} = t_{high\text{-}k} \times \left(\frac{\kappa_{\text{SiO}_2}}{\kappa_{high\text{-}k}}\right) \approx \frac{3.9}{25} \cdot t_{high\text{-}k}$$
+        </div>
+      </div>
+    </section>
+
+    <!-- Q 14 : dibl에서 더강한drain voltage인가되면서 depletion region은 소스와 채널의 포텐셜배리어를낮춘다 이거맞아? 아니면 소스와 바디의 포텐셜베리어야 -->
+    <section class="topic-section" id="q-16">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 16</span>
+          <h2 class="topic-title">dibl 포텐셜 베리어는 소스-채널이야, 소스-바디야?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"공식적이고 가장 정확한 표현은 '소스와 채널 사이의 포텐셜 베리어(Source-to-Channel Potential Barrier)'입니다."</strong></li>
+          <li><strong>"전자가 넘어가서 누설 전류를 만드는 통로가 게이트 바로 아래의 '표면 채널'이기 때문입니다."</strong></li>
+          <li><strong>"'소스와 바디'라고 부르면 기판 지하 깊은 곳의 장벽이 무너지는 펀치스루(Punchthrough)나 바디 효과와 혼동을 일으키므로 명확히 소스-채널로 구분해야 합니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <p>표면에서 깎이면 <strong>소스-채널 장벽 강하(DIBL)</strong>, 기판 지하 깊은 곳에서 뚫리면 <strong>소스-바디 장벽 붕괴(Punchthrough)</strong>입니다.</p>
+      </div>
+    </section>
+
+    <!-- Q 15 : 채널을감싸는면적이증가할수록 dibl에유리한메커니즞ㅁ설명 -->
+    <section class="topic-section" id="q-17">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 17</span>
+          <h2 class="topic-title">채널 감싸는 면적 증가할수록 dibl 유리한 메커니즘</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"게이트가 360도로 채널을 둘러싸 드레인에서 나오는 전기력선을 사방에서 차폐(Shielding)하여 소스 침투를 원천 봉쇄합니다."</strong></li>
+          <li><strong>"게이트 면적 증가로 $C_G \gg C_D$가 되어 전압 분배에 따른 장벽 흔들림이 0에 수렴합니다."</strong></li>
+          <li><strong>"특성 스케일 길이($\lambda$)가 축소되어 드레인 전계가 지수함수적으로 급격히 소멸하며, 채널 중심부의 정전기적 사각지대가 완전히 사라집니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <p>Planar(1면) $\rightarrow$ Double-Gate(2면) $\rightarrow$ FinFET(3면) $\rightarrow$ GAA(4면)으로 갈수록 특성 길이 $\lambda$가 절반 이하로 감소하여 이상적인 스케일링을 구현합니다.</p>
+      </div>
+    </section>
+
+    <!-- Q 16 : 3d dram의 dual gate라는말은 finfet에서 게이트가감싸고있는거랑다른거지맥락이? -->
+    <section class="topic-section" id="q-18">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 18</span>
+          <h2 class="topic-title">3d dram dual gate는 finfet이랑 다른 맥락이지?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"네, 구조적 맥락과 동작 목적이 완전히 다릅니다."</strong></li>
+          <li><strong>"FinFET은 단일 층에서 1개의 전극이 핀의 3면을 일체형으로 감싸는 Tri-gate 구조입니다."</strong></li>
+          <li><strong>"3D DRAM의 Dual Gate는 3D NAND처럼 수직 다층 적층하기 위해 수평 나노 박막 채널 위(Top)와 아래(Bottom)에 배치한 샌드위치 구조이며, 저온 산화물 반도체(IGZO)의 낮은 이동도를 2배로 보상하는 목적을 가집니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <p>다층 적층 공정에서 입체 핀을 세우는 난이도를 피하고, 상부 게이트는 워드라인, 하부 게이트는 백바이어스 문턱전압 조절용으로 독립 제어할 수 있는 이점도 가집니다.</p>
+      </div>
+    </section>
+
+    <!-- Q 17 : punchthrough가머야 -->
+    <section class="topic-section" id="q-19">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 19</span>
+          <h2 class="topic-title">punchthrough가 뭐야?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"드레인 전압($V_{DS}$) 인가 시 기판 지하 깊은 곳(Bulk)에서 드레인과 소스의 공핍층이 맞닿아(Merge) 전위 장벽이 붕괴되는 현상입니다."</strong></li>
+          <li><strong>"게이트 표면 채널을 거치지 않고 지하 통로로 전자가 쏟아져 들어가 게이트의 스위칭 통제권이 완전히 상실됩니다."</strong></li>
+          <li><strong>"펀치스루 전압은 채널 길이 제곱($V_{PT} \propto L^2$)에 비례하여 급감하므로, PTS 하부 고농도 도핑이나 FD-SOI, FinFET 구조로 해결합니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <div class="formula-box">
+          $$W_{dep,Source} + W_{dep,Drain} \ge L \quad \implies \quad V_{PT} \propto L^2 \cdot N_A$$
+        </div>
+      </div>
+    </section>
+
+    <!-- Q 18 : subthreshold current가뭐야 -->
+    <section class="topic-section" id="q-20">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 20</span>
+          <h2 class="topic-title">subthreshold current가 뭐야?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"게이트 전압이 문턱 전압보다 낮은 상태($V_{GS} < V_{th}$)에서 소스와 드레인 사이에 미세하게 흐르는 지수함수적 누설 전류입니다."</strong></li>
+          <li><strong>"드리프트가 아니라 열에너지를 가진 전자가 장벽을 넘어 퍼져나가는 '확산(Diffusion)' 전류로 동작합니다."</strong></li>
+          <li><strong>"Subthreshold Swing($SS$)은 전류를 10배 변화시키는 전압이며 상온 한계는 $60\,\text{mV/dec}$입니다. $V_{GS}=0\,\text{V}$에서의 이 전류가 바로 스마트폰 대기 방전의 원인입니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <p>온도 $300\,\text{K}$에서 볼츠만 열에너지를 가진 전자들이 댐 수문을 닫아두었어도 파도처럼 튀어나가는 현상입니다.</p>
+      </div>
+    </section>
+
+    <!-- Q 19 : vt 작아지면좋은거아닌가? -->
+    <section class="topic-section" id="q-21">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 21</span>
+          <h2 class="topic-title">vt 작아지면 좋은 거 아닌가?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"적절히 낮추면 오버드라이브 전압이 커져 구동 전류($I_{on}$)와 속도가 빨라지는 장점이 있습니다."</strong></li>
+          <li><strong>"하지만 마지노선 이하로 떨어지면 서브스레숄드 누설 전류($I_{off} \propto 10^{-V_{th}/SS}$)가 지수함수로 폭증하여 배터리 방전과 발열을 일으킵니다."</strong></li>
+          <li><strong>"또한 롤오프 낭떠러지 구간에서는 공정 오차 1nm에도 $V_{th}$가 요동쳐 웨이퍼 전체 수율이 괴멸됩니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <p>$V_{th}$가 $70\,\text{mV}$만 떨어져도 오프 누설 전류는 10배로 뛰며, $0.2\,\text{V}$ 떨어지면 누설 전류는 1,000배로 폭증합니다.</p>
+      </div>
+    </section>
+
+    <!-- Q 20 : 채널에음이온으로차지형성된다는게무슨말인지모르겟어 -->
+    <section class="topic-section" id="q-22">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 22</span>
+          <h2 class="topic-title">채널에 음이온으로 charge 형성된다는 게 무슨 말이야?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"P형 실리콘 기판에는 움직일 수 있는 정공(+)과 실리콘 뼈대에 단단히 박혀 못 움직이는 붕소 음이온($B^-$)이 공존합니다."</strong></li>
+          <li><strong>"전압이 가해지면 가벼운 정공(+)들은 척력에 밀려 기판 아래로 도망가고, 도망가지 못하는 붕소 음이온($B^-$)들만 덩그러니 남는 공간이 공핍층(Depletion Region)입니다."</strong></li>
+          <li><strong>"이 움직이지 못하는 고정 음이온들이 (-) 성질을 띠며 공간 전하(Space Charge, $Q_{dep}$)를 형성하는 것을 의미합니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <div class="analogy-card">
+          <div class="analogy-title">직관적 비유: '의자와 손님'</div>
+          <div class="analogy-desc">바닥에 볼트로 고정된 의자(붕소 음이온 $B^-$)에 앉아있던 손님(정공 Hole)들이 쫓겨나고, <strong>'빈 의자들만 덩그러니 남은 상태'</strong>가 바로 공핍층의 음이온 전하입니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q 21 : S/D과 BODY사이에 Depletion region 형성되고... 이게 vt roll off야? -->
+    <section class="topic-section" id="q-23">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 23</span>
+          <h2 class="topic-title">S/D-Body 공핍층 침범으로 charge sharing되는 게 vt roll off야?</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"네, 본질적인 물리 메커니즘을 95% 이상 정확하게 짚으셨습니다."</strong></li>
+          <li><strong>"채널 길이가 줄어들수록 S/D 접합 공핍 영역이 전체 채널 공핍 영역을 침범하는 비율이 커지며 전하 분할(Charge Sharing)이 발생합니다."</strong></li>
+          <li><strong>"S/D이 공핍층 형성을 대신해 주어 게이트가 감당해야 할 유효 공핍 음이온 전하($Q_{B,eff}$)가 감소하므로, 더 작은 전압으로도 쉽게 켜져 문턱 전압이 낮아지는 현상입니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <p>음이온 전하는 전류를 흘리는 전하가 아니라 게이트가 반전층을 만들기 위해 치워야 할 숙제이며, S/D이 이 숙제를 대신 분담해 준 상태입니다.</p>
+      </div>
+    </section>
+
+    <!-- Q 22 : 넌반도체전문가야 vt roll off와 dibl을 알려줘 -->
+    <section class="topic-section" id="q-24">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <span class="topic-badge">Q 24</span>
+          <h2 class="topic-title">vt roll off와 dibl을 알려줘</h2>
+        </div>
+      </div>
+      <div class="interview-summary-card">
+        <span class="summary-tag">면접 대비 3~4줄 핵심 요약</span>
+        <ul class="summary-list">
+          <li><strong>"Vt Roll-off는 채널 길이($L$) 축소에 따른 기하학적 전하 분할(Charge Sharing)로 인해 $V_{th}$가 기본적으로 낮아지는 정적 현상입니다."</strong></li>
+          <li><strong>"DIBL은 드레인에 높은 동작 전압($V_D$)을 걸었을 때 드레인 전계가 소스 장벽을 직접 깎아내려 $V_{th}$가 추가로 폭락하는 동적 바이어스 현상입니다."</strong></li>
+          <li><strong>"둘 다 게이트의 정전기적 제어력 상실에서 기인하며, 오프 누설 전류($I_{off}$) 폭증을 일으키므로 High-k 절연막과 FinFET, GAA 3D 구조로 극복합니다."</strong></li>
+        </ul>
+      </div>
+      <div class="lecture-content">
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>구분</th><th>Vt Roll-off</th><th>DIBL</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>유발 인자</strong></td><td>기하학적 채널 길이 축소 ($L \downarrow$)</td><td>드레인 전압 인가 ($V_D \uparrow$) + 단채널</td></tr>
+              <tr><td><strong>물리 원리</strong></td><td>전하 분할로 게이트 유효 공핍 전하 감소</td><td>드레인 전계 침투로 소스-채널 장벽 강하</td></tr>
+              <tr><td><strong>측정 조건</strong></td><td>낮은 드레인 전압에서 $L$ 변화에 따른 $V_{th}$</td><td>동일 짧은 채널에서 $V_{DS,low} \rightarrow V_{DS,high}$ 간 $V_{th}$ 차이</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const sections = document.querySelectorAll('.topic-section');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    searchInput.addEventListener('input', (e) => {
+      const keyword = e.target.value.toLowerCase();
+      sections.forEach(sec => {
+        const text = sec.innerText.toLowerCase();
+        if (text.includes(keyword)) {
+          sec.style.display = 'block';
+        } else {
+          sec.style.display = 'none';
+        }
+      });
+    });
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(sec => {
+        const secTop = sec.offsetTop - 120;
+        if (window.scrollY >= secTop) {
+          current = sec.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
