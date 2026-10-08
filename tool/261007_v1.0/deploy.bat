@@ -1,18 +1,25 @@
 @echo off
-chcp 65001 > nul
-echo [1/3] HTML Sync Build...
+echo ========================================================
+echo [1/3] Building HTML...
+echo ========================================================
 python "%~dp0build_html.py"
 
 echo.
-echo [2/3] Git Staging and Commit...
+echo ========================================================
+echo [2/3] Git Add and Commit...
+echo ========================================================
 pushd "%~dp0..\.."
 git add .
-git commit -m "update: Q01 헤일로 모서리 농도와 공핍층 정지 로직 추가"
+git commit -m "update: Q01 semiconductor dashboard"
 
 echo.
-echo [3/3] Git Push to GitHub...
+echo ========================================================
+echo [3/3] Git Push to GitHub Pages...
+echo ========================================================
 git push origin main
 popd
 
 echo.
-echo [SUCCESS] Deployed online: https://richvayne13.github.io/semiconductor-3/
+echo ========================================================
+echo [SUCCESS] Deployed online to https://richvayne13.github.io/semiconductor-3/
+echo ========================================================
