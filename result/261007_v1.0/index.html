@@ -221,22 +221,24 @@
     /* 질문 카드 섹션 */
     .topic-section {
       background-color: var(--bg-card);
-      border: 1px solid var(--border);
+      border: 6px solid #2a3d66;
       border-radius: var(--radius-lg);
-      padding: 32px 36px;
-      margin-bottom: 44px;
-      box-shadow: var(--shadow-sm);
+      padding: 34px 38px;
+      margin-bottom: 52px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
       scroll-margin-top: 25px;
-      transition: border-color 0.2s;
+      transition: all 0.25s ease;
     }
 
     .topic-section:hover {
-      border-color: rgba(56, 189, 248, 0.4);
+      border-color: #38bdf8;
+      box-shadow: 0 12px 35px rgba(56, 189, 248, 0.25);
     }
 
     .latest-card-highlight {
-      border: 2px solid #0284c7;
-      background: linear-gradient(180deg, rgba(2, 132, 199, 0.08) 0%, var(--bg-card) 100%);
+      border: 6px solid #0284c7;
+      background: linear-gradient(180deg, rgba(2, 132, 199, 0.1) 0%, var(--bg-card) 100%);
+      box-shadow: 0 10px 35px rgba(2, 132, 199, 0.3);
     }
 
     .topic-header {
