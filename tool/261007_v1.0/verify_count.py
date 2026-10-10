@@ -6,5 +6,5 @@ for path in ['result/261007_v1.0/index.html', 'index.html']:
     navs = len(re.findall(r'<li class="nav-item">', content))
     secs = len(re.findall(r'<section class="[^"]*topic-section', content))
     q01 = 'id="q-01"' in content
-    q93 = 'id="q-93"' in content
-    print(f"{path}: navs={navs}, secs={secs}, q01={q01}, q93={q93}")
+    q95 = 'id="q-95"' in content
+    print(f"{path}: navs={navs}, secs={secs}, q01={q01}, q95={q95}")
