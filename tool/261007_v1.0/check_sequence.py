@@ -8,4 +8,4 @@ for p in ['result/261007_v1.0/index.html', 'index.html']:
     secs = re.findall(r'<section class="[^"]*" id="q-(\d+)">.*?<span class="topic-badge">Q (\d+)</span>.*?<h2 class="topic-title">(.*?)</h2>', text, re.DOTALL)
     nav_nums = [int(n[0]) for n in navs]
     sec_nums = [int(s[0]) for s in secs]
-    print(f"{p}: navs_count={len(navs)}, secs_count={len(secs)}, navs_1_97={nav_nums == list(range(1, 98))}, secs_1_97={sec_nums == list(range(1, 98))}")
+    print(f"{p}: navs_count={len(navs)}, secs_count={len(secs)}, navs_1_98={nav_nums == list(range(1, 99))}, secs_1_98={sec_nums == list(range(1, 99))}")
