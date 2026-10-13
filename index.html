@@ -606,6 +606,9 @@
         <button id="sidebarCollapseBtn" class="drawer-toggle-btn" title="목차 서랍 닫기">◀ 목차 접기</button>
       </div>
       <p>질문하신 순서의 역순(최신순)으로 정렬된 탭</p>
+      <div style="margin-top: 10px;">
+        <a href="https://richvayne13.github.io/semiconductor-master/archive_159.html" onclick="goToArchive159(event)" class="drawer-toggle-btn" style="text-decoration:none; display:flex; justify-content:center; align-items:center; background:#2563eb; color:#ffffff; border-color:#38bdf8; padding:8px 12px; font-size:0.85rem; font-weight:700; border-radius:6px; box-shadow:0 2px 6px rgba(37,99,235,0.3);">📑 159 훈련과정 마스터 바로가기 →</a>
+      </div>
     </div>
     <div class="search-box">
       <input type="text" id="searchInput" class="search-input" placeholder="질문 키워드 검색...">
@@ -16211,9 +16214,32 @@ ightarrow$ <strong>공핍층 완전 가로막힘!</strong></li>
         link.classList.remove('active');
         if (link.getAttribute('href') === `#${current}`) {
           link.classList.add('active');
+          if (current) localStorage.setItem('semicon3_last_q', current);
         }
       });
     });
+
+    // 159 훈련과정 마스터 대시보드 바로가기
+    function goToArchive159(e) {
+      if (e) e.preventDefault();
+      const isLocal = window.location.protocol === 'file:';
+      const lastPost = localStorage.getItem('archive159_last_post_id');
+      const hash = lastPost ? `#post-${lastPost}` : '';
+      if (isLocal) {
+        window.location.href = `../반도체/archive_159.html${hash}`;
+      } else {
+        window.location.href = `https://richvayne13.github.io/semiconductor-master/archive_159.html${hash}`;
+      }
+    }
+
+    // 질문 해시 변경 시 상태 저장
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) localStorage.setItem('semicon3_last_q', hash);
+    });
+    if (window.location.hash) {
+      localStorage.setItem('semicon3_last_q', window.location.hash.replace('#', ''));
+    }
   
     // 목차 서랍 여닫기 (토글 & 본문 확장)
     const sidebarCollapseBtn = document.getElementById('sidebarCollapseBtn');
