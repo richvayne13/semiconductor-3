@@ -12763,6 +12763,46 @@ HBM의 DRAM 셀은 온도가 85℃~105℃를 넘어가면 커패시터에 저장
 ight) pprox \mathbf{60	ext{ mV/dec}}$라는 이상적인 스위칭 특성을 달성합니다.</li>
 </ol>
 
+<div style="background:#0b1120; border:1px solid #38bdf8; border-radius:10px; padding:20px; margin:22px 0; box-shadow:0 6px 20px rgba(0,0,0,0.4);">
+  <div style="font-size:1.02rem; font-weight:800; color:#38bdf8; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+    <span>💡 [마스터 심화 Q&amp;A]</span> USJ는 단면적이 작아져 공핍층 면적이 늘어나면 게이트 커패시턴스가 커지는 것 아닌가요? (Body Factor &amp; Gate Cap의 오해와 진실)
+  </div>
+
+  <p style="color:#e2e8f0; font-size:0.9rem; line-height:1.7; margin-bottom:12px;">
+    <strong>"단면적($X_j$)이 작아지면 S/D가 차지하던 부피가 줄어 게이트 쪽 공핍층이 늘어나므로 게이트 커패시턴스가 커지는 것 아닌가?"</strong>라는 의문은 소자 물리에서 전하 공유(Charge Sharing) 메커니즘을 깊이 고민할 때 생기는 매우 훌륭한 질문입니다. 이에 대한 물리적 실체는 다음과 같이 명쾌하게 정리됩니다.
+  </p>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px; margin:16px 0;">
+    <div style="background:#1e293b; padding:15px; border-radius:8px; border-left:3px solid #10b981;">
+      <h4 style="color:#10b981; font-size:0.92rem; font-weight:800; margin-bottom:6px;">① 게이트 산화막 커패시턴스($C_{ox}$)는 고정</h4>
+      <p style="color:#cbd5e1; font-size:0.84rem; line-height:1.6; margin:0;">
+        게이트 커패시턴스는 게이트 전극의 기하학적 평면 면적($W \times L$)과 산화막 두께($T_{ox}$)로 결정($C_{ox} = \frac{\epsilon_{ox} W L}{T_{ox}}$)되므로, S/D 접합 단면적($X_j$)이 얕아진다고 해서 물리적 $C_{ox}$가 커지지 않습니다.
+      </p>
+    </div>
+
+    <div style="background:#1e293b; padding:15px; border-radius:8px; border-left:3px solid #f59e0b;">
+      <h4 style="color:#f59e0b; font-size:0.92rem; font-weight:800; margin-bottom:6px;">② 직렬 연결 모델: 공핍층 커패시턴스($C_d$)의 감소</h4>
+      <p style="color:#cbd5e1; font-size:0.84rem; line-height:1.6; margin:0;">
+        게이트 아래 총 커패시턴스는 산화막($C_{ox}$)과 공핍층($C_d$)의 직렬 연결($C_{total} = \frac{C_{ox} C_d}{C_{ox} + C_d}$)입니다. 만약 공핍층 두께($W_{dep}$)가 늘어난다면 커패시터 공식($C = \frac{\epsilon A}{d}$)상 $C_d$는 오히려 감소하므로, 전체 게이트 커패시턴스는 절대로 커질 수 없습니다.
+      </p>
+    </div>
+
+    <div style="background:#1e293b; padding:15px; border-radius:8px; border-left:3px solid #38bdf8;">
+      <h4 style="color:#38bdf8; font-size:0.92rem; font-weight:800; margin-bottom:6px;">③ 회로 지연을 유발하는 기생 Cap은 대폭 축소</h4>
+      <p style="color:#cbd5e1; font-size:0.84rem; line-height:1.6; margin:0;">
+        회로 스위칭 딜레이($\tau = R \cdot C$)를 지배하는 기생 커패시턴스는 게이트-드레인 오버랩 용량($C_{ov}$)과 접합 용량($C_j$)입니다. USJ는 수평 확산($L_{ov} \approx 0.7 X_j$)과 측벽 접합 면적($A_{side} = W \times X_j$)을 극소화하므로, 이 치명적인 기생 Cap들을 모두 획기적으로 줄여줍니다.
+      </p>
+    </div>
+
+    <div style="background:#1e293b; padding:15px; border-radius:8px; border-left:3px solid #ec4899;">
+      <h4 style="color:#ec4899; font-size:0.92rem; font-weight:800; margin-bottom:6px;">④ 바디 이펙트(Body Factor $\gamma$)와 게이트 구동력</h4>
+      <p style="color:#cbd5e1; font-size:0.84rem; line-height:1.6; margin:0;">
+        깊은 접합에서는 S/D 공핍층이 채널을 가로채 게이트가 힘을 잃었으나, USJ는 기생 전하 공유를 차단하여 게이트가 채널 전체를 100% 장악하게 해 줍니다. 즉, '게이트 커패시턴스가 비대해진 것'이 아니라 <strong>'게이트의 정전기적 채널 지배력(Electrostatic Control)이 온전히 회복되어 높은 온전류(Ion) 구동력을 발휘'</strong>하는 것입니다.
+      </p>
+    </div>
+  </div>
+</div>
+
 <h3>6. 핵심 한 줄 요약</h3>
 <blockquote style="border-left:4px solid #38bdf8; padding-left:12px; color:#e2e8f0; font-weight:600; margin:15px 0;">
 "USJ(Ultra-Shallow Junction)는 드레인 측면 단면적($W 	imes X_j$)을 극소화하여 <strong>기생 접합 커패시턴스 $C_j$(특히 측면 $C_{j,sw}$)와 게이트 오버랩 커패시턴스 $C_{ov}$를 줄이는 기술</strong>이 100% 맞으며, 게이트 하부 채널의 <strong>공핍 커패시턴스 $C_{dep}$ 자체를 줄이지는 않는다!</strong> (단, S/D 공핍층이 채널을 침범하는 Charge Sharing은 원천 봉쇄함)"
